@@ -8,12 +8,20 @@ export default function Home() {
   const [newText, setNewText] = useState('');
 
   useEffect(() => {
-    // get and set current text
+    async function getLine() {
+      const res = await fetch('/lines');
+      const data = await res.json()
+      setCurrentText(data.line);
+    }
+    getLine();
   }, []);
 
   function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // store new text in Redis
+    fetch('/lines', {
+      method: 'POST',
+      body: JSON.stringify({ line: newText }),
+    });
     setCurrentText(newText);
   }
 
