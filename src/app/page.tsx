@@ -30,12 +30,12 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
+      <h3>Current Text: {currentText}</h3>
+      <HexColorPicker color={color} onChange={setColor} />
       <form className={styles.form} onSubmit={submit}>
-        <h3>Current Text: {currentText}</h3>
         <input placeholder="Input New Text" type="text" value={newText} onChange={(e) => { setNewText(e.target.value) }} />
         <input type="submit" value="Submit" />
       </form>
-      <HexColorPicker color={color} onChange={setColor} />
     </main>
   )
 }
