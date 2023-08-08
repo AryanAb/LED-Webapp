@@ -2,16 +2,19 @@
 
 import { useState, useEffect, FormEvent } from 'react'
 import styles from './page.module.css'
+import { HexColorPicker } from 'react-colorful'
 
 export default function Home() {
   const [currentText, setCurrentText] = useState('');
   const [newText, setNewText] = useState('');
+  const [color, setColor] = useState('#cf2727');
 
   useEffect(() => {
     async function getLine() {
       const res = await fetch('/lines');
       const data = await res.json()
-      setCurrentText(data.line);
+      setCurrentText(data.text);
+      setColor(data.color);
     }
     getLine();
   }, []);
@@ -20,7 +23,7 @@ export default function Home() {
     e.preventDefault();
     fetch('/lines', {
       method: 'POST',
-      body: JSON.stringify({ line: newText }),
+      body: JSON.stringify({ text: newText, color: color }),
     });
     setCurrentText(newText);
   }
@@ -32,6 +35,7 @@ export default function Home() {
         <input placeholder="Input New Text" type="text" value={newText} onChange={(e) => { setNewText(e.target.value) }} />
         <input type="submit" value="Submit" />
       </form>
+      <HexColorPicker color={color} onChange={setColor} />
     </main>
   )
 }
